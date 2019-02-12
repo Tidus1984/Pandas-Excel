@@ -48,14 +48,15 @@ df1=df.loc[df['Age'].apply(age_range)].loc[df['Score'].apply(score_range)]
 #多表联合VLOOKUP合并
 table = df1.merge(df2,how='left',on='ID').fillna('没找到')
 table.Score = table.Score.astype(int)#Score列变成整数
-#how=’left‘ 表示依 df1 基础 保留所有df1列信息
+#how=’left‘ 表示依 df1 基础 保留所有df1列信息。默认inner参数
 #on=’ID‘ df1与df2都有ID列 前提两张表都有ID列，没有用 left_on与right_on
 #.fillna() 表示 在df1中df2没有的数据填下’没找到‘
+#merge 不能默认指定index列 必须 on指定
 students = pd.read_excel('C:/Temp/Student_score.xlsx', sheet_name='Students', index_col='ID')
 scores = pd.read_excel('C:/Temp/Student_score.xlsx', sheet_name='Scores', index_col='ID')
 table = students.join(scores, how='left').fillna(0)
 table.Score = table.Score.astype(int)
-#join 必须指定index
+#join 必须指定index_col一样，也有on参数
 
 
 #数据效验

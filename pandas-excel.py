@@ -68,6 +68,26 @@ table.Score = table.Score.astype(int)
 #统计分析
 
 
+#分类汇总
+#方法1：
+import numpy as np
+from datetime import date
+orders = pd.read_excel('C:/Temp/Orders.xlsx', dtype={'Date': date})#让Date列变成日期类型
+orders['Year'] = pd.DatetimeIndex(orders.Date).year
+#新增Year列 让Date 2019/5-31 在Year列中显示年份year
+pt1 = orders.pivot_table(index='Category', columns='Year', values='Total', aggfunc=np.sum)
+#生成数据透视表 row是Category，columns是Year的种类，求值是Total列的数值，目的是aggfunc 求和
+
+#方法2：
+groups = orders.groupby(['Category', 'Year'])
+#更具Category、Year列分组
+s = groups['Total'].sum()
+#Total列求和
+c = groups['ID'].count()
+#ID列求数量
+pt2 = pd.DataFrame({'Sum': s, 'Count': c})
+#s、c 两个DataFrame 按照列Sum 与 Count 再合并成一个新DateFrame
+
 
 
 

@@ -10,6 +10,7 @@ df = pd.read_excel(r'C:\Temp\Books.xlsx',skiprows=3,header=2,usecols='C:F',dtype
 #usecols 列选择C到F列数据读取
 #dtype 重点 pandas把NaN默认flode 如果想下面迭代表达先把空列设置成str类型、或者object
 #index_col 把ID列作为DateFrame的index列
+#sheet_name=‘sheet1’ 把Excel表中读取sheet1 或者sheet2
 
 
 #保存文件

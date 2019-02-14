@@ -90,7 +90,31 @@ pt2 = pd.DataFrame({'Sum': s, 'Count': c})
 #s、c 两个DataFrame 按照列Sum 与 Count 再合并成一个新DateFrame
 
 
-#条件格式选择不同颜色
+#行操作集锦
+page_001 = pd.read_excel('C:/Temp/Students.xlsx', sheet_name='Page_001')
+page_002 = pd.read_excel('C:/Temp/Students.xlsx', sheet_name='Page_002')
+# 追加已有：append row 添加002、重新排列index并且放弃原来的两个index
+students = page_001.append(page_002).reset_index(drop=True)
+# 追加新建：stu新建 row 放到students后面并且忽略index不然报错
+stu = pd.Series({'ID': 41, 'Name': 'Abel', 'Score': 90})
+students = students.append(stu, ignore_index=True)
+# 删除（可切片）：students放弃index39到40 row 并且赋值给 students
+students = students.drop(index=[39, 40])
+# 插入（切片操作）
+stu = pd.Series({'ID': 100, 'Name': 'Bailey', 'Score': 100})
+part1 = students[:21]  # .iloc[] is the same
+part2 = students[21:]
+students = part1.append(stu, ignore_index=True).append(part2).reset_index(drop=True)
+# 更改覆盖
+stu = pd.Series({'ID': 101, 'Name': 'Danni', 'Score': 101})
+students.iloc[39] = stu
+# 设置空值
+for i in range(5, 15):
+    students['Name'].at[i] = ''
+# 去掉空值
+missing = students.loc[students['Name'] == '']
+students.drop(missing.index, inplace=True)
+
 
 
 

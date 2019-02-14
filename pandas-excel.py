@@ -80,13 +80,16 @@ pt1 = orders.pivot_table(index='Category', columns='Year', values='Total', aggfu
 
 #方法2：
 groups = orders.groupby(['Category', 'Year'])
-#更具Category、Year列分组
+#根据Category、Year列分组
 s = groups['Total'].sum()
 #Total列求和
 c = groups['ID'].count()
 #ID列求数量
 pt2 = pd.DataFrame({'Sum': s, 'Count': c})
 #s、c 两个DataFrame 按照列Sum 与 Count 再合并成一个新DateFrame
+
+
+#条件格式选择不同颜色
 
 
 

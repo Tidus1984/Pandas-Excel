@@ -1,5 +1,6 @@
 import pandas as pd
-#python3.6 andaconda pycharm
+#python3.6  pycharm 编辑器
+#andaconda 可以用 prompt 命令行：jupyter notebook 启动idle 交互界面
 #学习视频 Python数据分析 - Pandas玩转Excel-Timothy 
 
 

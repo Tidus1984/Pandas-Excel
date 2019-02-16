@@ -12,10 +12,12 @@ df = pd.read_excel(r'C:\Temp\Books.xlsx',skiprows=3,header=2,usecols='C:F',dtype
 #dtype 重点 pandas把NaN默认flode 如果想下面迭代表达先把空列设置成str类型、或者object
 #index_col 把ID列作为DateFrame的index列
 #sheet_name=‘sheet1’ 把Excel表中读取sheet1 或者sheet2
+df = pd.read_csv(path,encoding='gb18030',header=1) #读取文件endcoding注意
 
 
 #保存文件
 df.to_excel(path)
+df.to_csv('5.csv',encoding='gb18030')
 #如果未设置index列系统自动保存，excel打开后 多出一列index，解决方案指定index列
 #方法：
 df=df.set_index('ID')
@@ -65,16 +67,26 @@ table.Score = table.Score.astype(int)
 
 
 #分列修改每列替换
-
+time=df.创建时间.str.split(expand=True)
+#str.split()空的表示默认空格分
+#expand list分为全咧
+#columns 0 1
 
 #统计分析
+
+
+#数据查看
+df.info()#查看每列数据数据类型 str time object等等
+df.head(3)#查看头部前三行
+df.tail()#查看尾部
+df.创建时间.unique()#查看 创建时间 列 不重复值有多少
 
 
 #分类汇总
 #方法1：
 import numpy as np
 from datetime import date
-orders = pd.read_excel('C:/Temp/Orders.xlsx', dtype={'Date': date})#让Date列变成日期类型
+orders = pd.read_excel('C:/Temp/Orders.xlsx', dtype={'Date': date})#让Date列变成日期类型？始终有问题
 orders['Year'] = pd.DatetimeIndex(orders.Date).year
 #新增Year列 让Date 2019/5-31 在Year列中显示年份year
 pt1 = orders.pivot_table(index='Category', columns='Year', values='Total', aggfunc=np.sum)
@@ -117,8 +129,34 @@ missing = students.loc[students['Name'] == '']
 students.drop(missing.index, inplace=True)
 
 
+#列操作集锦
+df=df[df.单据类型.str.contains('销售发票')] # 选择 单据类型列 含有 销售发票 字符的行
 
 
+
+#时间轴处理集锦 dt类（有空看一下）
+#设置 创建时间 列 数据类型为 datetime64[ns]
+df['创建时间'] = pd.to_datetime(df.创建时间)
+
+#查看datetime类型
+df['创建时间'].dt.year.unique()
+df['创建时间']].dt.month.unique()
+df['创建时间']].dt.day.unique()
+
+#查看day=26天的数据有多少
+df[df['创建时间'].dt.day == 26]
+
+#查看第6行 创建时间列 与 第200行 创建时间列时间差距
+df.loc[6,'创建时间'] - df.loc[200,'创建时间']
+
+#创建新 开票星期几 行 然后 把创建时间列算下星期几或者时间
+df['开票星期几'] = pd.DatetimeIndex(df.创建时间).dayofweek
+
+
+#str方法 有空看一下
+
+#合并两列用 - 区分
+df['小时分钟']=df['小时'].str.cat(df.['分钟']，sep='-')
 
 
 
